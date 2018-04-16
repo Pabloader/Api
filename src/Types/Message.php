@@ -31,6 +31,7 @@ class Message extends BaseType implements TypeInterface
         'reply_to_message' => Message::class,
         'text' => true,
         'entities' => ArrayOfMessageEntity::class,
+        'caption_entities' => ArrayOfMessageEntity::class,
         'audio' => Audio::class,
         'document' => Document::class,
         'photo' => ArrayOfPhotoSize::class,
@@ -53,7 +54,10 @@ class Message extends BaseType implements TypeInterface
         'migrate_from_chat_id' => true,
         'pinned_message' => Message::class,
         'invoice' => Invoice::class,
-        'successful_payment' => SuccessfulPayment::class
+        'successful_payment' => SuccessfulPayment::class,
+        'forward_signature' => true,
+        'author_signature' => true,
+        'connected_website' => true
     ];
 
     /**
@@ -286,6 +290,35 @@ class Message extends BaseType implements TypeInterface
      * @var SuccessfulPayment
      */
     protected $successfulPayment;
+
+    /**
+     * Optional. For messages forwarded from channels, signature of the post author if present
+     *
+     * @var string
+     */
+    protected $forwardSignature;
+
+    /**
+     * Optional. Signature of the post author for messages in channels
+     *
+     * @var string
+     */
+    protected $authorSignature;
+
+    /**
+     * Optional. For messages with a caption, special entities like usernames,
+     * URLs, bot commands, etc. that appear in the caption
+     *
+     * @var ArrayOfMessageEntity
+     */
+    protected $captionEntities;
+
+    /**
+     * Optional. The domain name of the website on which the user has logged in.
+     *
+     * @var string
+     */
+    protected $connectedWebsite;
 
     /**
      * @return string
@@ -819,5 +852,69 @@ class Message extends BaseType implements TypeInterface
     public function setSuccessfulPayment($successfulPayment)
     {
         $this->successfulPayment = $successfulPayment;
+    }
+
+    /**
+     * @return string
+     */
+    public function getForwardSignature()
+    {
+        return $this->forwardSignature;
+    }
+
+    /**
+     * @param string $forwardSignature
+     */
+    public function setForwardSignature($forwardSignature)
+    {
+        $this->forwardSignature = $forwardSignature;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAuthorSignature()
+    {
+        return $this->authorSignature;
+    }
+
+    /**
+     * @param string $authorSignature
+     */
+    public function setAuthorSignature($authorSignature)
+    {
+        $this->authorSignature = $authorSignature;
+    }
+
+    /**
+     * @return ArrayOfMessageEntity
+     */
+    public function getCaptionEntities()
+    {
+        return $this->captionEntities;
+    }
+
+    /**
+     * @param ArrayOfMessageEntity $captionEntities
+     */
+    public function setCaptionEntities($captionEntities)
+    {
+        $this->captionEntities = $captionEntities;
+    }
+
+    /**
+     * @return string
+     */
+    public function getConnectedWebsite()
+    {
+        return $this->connectedWebsite;
+    }
+
+    /**
+     * @param string $connectedWebsite
+     */
+    public function setConnectedWebsite($connectedWebsite)
+    {
+        $this->connectedWebsite = $connectedWebsite;
     }
 }
