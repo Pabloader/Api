@@ -154,6 +154,13 @@ class BotApi
      */
     protected $returnArray = true;
 
+    /**
+     * Proxy connection string
+     *
+     * @var bool
+     */
+    protected $proxy = null;
+
 
     /**
      * Constructor
@@ -185,6 +192,19 @@ class BotApi
         return $this;
     }
 
+    /**
+     * Set proxy
+     *
+     * @param string $proxy
+     *
+     * @return $this
+     */
+    public function setProxy($proxy = null)
+    {
+        $this->proxy = $proxy;
+
+        return $this;
+    }
 
     /**
      * Call method
@@ -210,6 +230,10 @@ class BotApi
         if ($data) {
             $options[CURLOPT_POST] = true;
             $options[CURLOPT_POSTFIELDS] = $data;
+        }
+
+        if ($this->proxy) {
+            $options[CURLOPT_PROXY] = $this->proxy;
         }
 
         $response = self::jsonValidate($this->executeCurl($options), $this->returnArray);
@@ -904,6 +928,10 @@ class BotApi
             CURLOPT_RETURNTRANSFER => 1,
             CURLOPT_URL => $this->getFileUrl().'/'.$file->getFilePath(),
         ];
+
+        if ($this->proxy) {
+            $options[CURLOPT_PROXY] = $this->proxy;
+        }
 
         return $this->executeCurl($options);
     }
